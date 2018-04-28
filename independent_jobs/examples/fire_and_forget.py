@@ -1,3 +1,6 @@
+from __future__ import print_function
+from __future__ import division
+from past.utils import old_div
 import itertools
 import os
 from os.path import expanduser
@@ -62,9 +65,9 @@ if __name__ == '__main__':
     all_parameters = itertools.product(params_x, params_y)
     all_parameters = list(all_parameters)
     shuffle(all_parameters)
-    print "Number of parameter combinations:", len(all_parameters)
+    print("Number of parameter combinations:", len(all_parameters))
     
-    for params in all_parameters[:len(all_parameters) / 300]:
+    for params in all_parameters[:old_div(len(all_parameters), 300)]:
         x = params[0]
         y = params[1]
         # note there are no aggregators and no result instances
@@ -82,7 +85,7 @@ if __name__ == '__main__':
                   result_name="my_result_name", redux_funs=[np.nanmean])
     best_params = best_parameters(db_fname, param_names=["x", "y"], result_name="my_result_name",
                     selector=np.nanmin, redux_fun=np.nanmean)
-    print "best parameters:", best_params
+    print("best parameters:", best_params)
     
     # plot stuff
     try:
@@ -93,4 +96,4 @@ if __name__ == '__main__':
         plt.ylabel("y")
         plt.show()
     except ImportError:
-        print results
+        print(results)

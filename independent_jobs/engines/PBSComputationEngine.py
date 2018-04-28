@@ -1,3 +1,4 @@
+from builtins import str
 import os
 
 from independent_jobs.engines.BatchClusterComputationEngine import BatchClusterComputationEngine

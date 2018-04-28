@@ -1,4 +1,5 @@
 
+from builtins import object
 from pickle import dump, load
 import os
 

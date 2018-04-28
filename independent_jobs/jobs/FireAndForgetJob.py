@@ -1,3 +1,5 @@
+from __future__ import print_function
+from builtins import str
 from abc import abstractmethod
 from distutils.version import StrictVersion
 import itertools
@@ -13,9 +15,9 @@ import pandas as pd
 
 pd_version_at_least="0.19.2"
 if StrictVersion(pd.__version__) < StrictVersion(pd_version_at_least):
-    print "Fire and forget functionality might be incompatible with the "\
+    print("Fire and forget functionality might be incompatible with the "\
         "pandas version you are using (%s). Upgrade to at least %s to get "\
-        "rid of this message." % (pd.__version__, pd_version_at_least)
+        "rid of this message." % (pd.__version__, pd_version_at_least))
 
 def store_results(fname, **kwargs):
     # create result dir if wanted
@@ -60,7 +62,7 @@ def extract_array(fname, param_names, result_name="result",
         with open(fname) as f:
             df = pd.read_csv(f, error_bad_lines=False, warn_bad_lines=False)
     
-    for k, v in conditionals.items():
+    for k, v in list(conditionals.items()):
         df = df.loc[df[k] == v]
         if k in param_names:
             param_names.remove(k)
@@ -139,7 +141,7 @@ class FireAndForgetJob(IndependentJob):
         raise NotImplementedError()
     
     def compute(self):
-        param_string = ", ".join(["%s=%s" % (str(k), str(v)) for k, v in self.param_dict.items()])
+        param_string = ", ".join(["%s=%s" % (str(k), str(v)) for k, v in list(self.param_dict.items())])
 
         logger.info("Setting numpy random seed to %d" % self.seed)
         np.random.seed(self.seed)
@@ -159,7 +161,7 @@ class FireAndForgetJob(IndependentJob):
     def store_results(self, result, runtime):
         logger.info("Storing results in %s" % self.db_fname)
         submit_dict = {}
-        for k, v in self.param_dict.items():
+        for k, v in list(self.param_dict.items()):
             submit_dict[k] = v
         submit_dict[self.result_name] = result
         submit_dict["_runtime"] = runtime

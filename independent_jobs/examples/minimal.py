@@ -1,3 +1,5 @@
+from __future__ import print_function
+from builtins import range
 import os
 from os.path import expanduser
 
@@ -58,4 +60,4 @@ if __name__ == '__main__':
         # which we need to extract the number from
         results[i] = agg.get_final_result().result
     
-    print "Results", results
+    print("Results", results)

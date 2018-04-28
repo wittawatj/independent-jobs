@@ -1,4 +1,6 @@
 
+from builtins import range
+from builtins import object
 from numpy.random import randint
 import unittest
 

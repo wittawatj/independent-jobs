@@ -1,4 +1,6 @@
 
+from builtins import str
+from builtins import object
 import os
 import shutil
 import subprocess
@@ -33,7 +35,7 @@ class FileSystem(object):
     @staticmethod
     def get_unique_filename(filename_base):
         while True:
-            fn = filename_base + unicode(uuid.uuid4())
+            fn = filename_base + str(uuid.uuid4())
             try:
                 open(fn, "r").close()
             except IOError:

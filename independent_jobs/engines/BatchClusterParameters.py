@@ -1,3 +1,4 @@
+from builtins import object
 import logging
 from tempfile import mkdtemp
 

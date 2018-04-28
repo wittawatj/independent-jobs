@@ -1,4 +1,5 @@
 
+from builtins import object
 from abc import abstractmethod
 
 class IndependentJob(object):
