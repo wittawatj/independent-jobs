@@ -2,7 +2,7 @@ from abc import abstractmethod
 from os import makedirs
 import os
 import pickle
-from popen2 import popen2
+import subprocess
 import time
 
 from independent_jobs.aggregators.ResultAggregatorWrapper import ResultAggregatorWrapper
@@ -147,7 +147,10 @@ class BatchClusterComputationEngine(IndependentComputationEngine):
     @abstractmethod
     def submit_to_batch_system(self, job_string):
         # send job_string to batch command
-        outpipe, inpipe = popen2(self.submission_cmd)
+        p = subprocess.Popen(self.submission_cmd, shell=True,
+                stdin=subprocess.PIPE, stdout=subprocess.PIPE, close_fds=True)
+        (outpipe, inpipe) = (p.stdin, p.stdout)
+
         inpipe.write(job_string + os.linesep)
         inpipe.close()
         

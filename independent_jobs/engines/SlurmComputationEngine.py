@@ -1,6 +1,6 @@
 import os
-import popen2
 
+import subprocess
 from independent_jobs.engines.BatchClusterComputationEngine import BatchClusterComputationEngine
 from independent_jobs.tools.Log import logger
 from independent_jobs.tools.Time import Time
@@ -73,7 +73,10 @@ class SlurmComputationEngine(BatchClusterComputationEngine):
 
     def submit_to_batch_system(self, job_string):
         # send job_string to batch command
-        outpipe, inpipe = popen2.popen2(self.submission_cmd)
+        p = subprocess.Popen(self.submission_cmd, shell=True,
+                stdin=subprocess.PIPE, stdout=subprocess.PIPE, close_fds=True)
+        (outpipe, inpipe) = (p.stdin, p.stdout)
+
         inpipe.write(job_string + os.linesep)
         inpipe.close()
         
