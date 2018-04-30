@@ -165,7 +165,7 @@ class BatchClusterComputationEngine(IndependentComputationEngine):
         return FileSystem.get_unique_filename(self.batch_parameters.job_name_base)
     
     def save_all_job_list(self):
-        with open(self.self_serialisation_fname, "w+") as f:
+        with open(self.self_serialisation_fname, "wb") as f:
             pickle.dump(self, f)
     
     def submit_job(self, job):

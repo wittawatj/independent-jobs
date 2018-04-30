@@ -31,7 +31,7 @@ class ResultAggregatorWrapper(JobResultAggregator):
         # if all results received, dump wrapped_aggregator to disc
         # this has to happen on the PBS
         if self.result_counter == self.wrapped_aggregator.expected_num_results:
-            f = open(self.filename, 'w')
+            f = open(self.filename, 'wb')
             dump(self.wrapped_aggregator, f)
             f.close()
         
@@ -52,7 +52,7 @@ class ResultAggregatorWrapper(JobResultAggregator):
         
         # load the previously dumped aggregator to this instance, which is empty
         # since the filled one is on the PBS
-        f = open(self.filename, 'r')
+        f = open(self.filename, 'rb')
         self.wrapped_aggregator = load(f)
         f.close()
     

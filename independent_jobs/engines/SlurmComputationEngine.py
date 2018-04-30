@@ -74,14 +74,23 @@ class SlurmComputationEngine(BatchClusterComputationEngine):
 
     def submit_to_batch_system(self, job_string):
         # send job_string to batch command
+        # https://stackoverflow.com/questions/44989808/subprocess-typeerror-a-bytes-like-object-is-required-not-str-python-2
         p = subprocess.Popen(self.submission_cmd, shell=True,
-                stdin=subprocess.PIPE, stdout=subprocess.PIPE, close_fds=True)
-        (outpipe, inpipe) = (p.stdin, p.stdout)
+                stdin=subprocess.PIPE, stdout=subprocess.PIPE, 
+                encoding='utf8', close_fds=True)
+        # see https://docs.python.org/2/library/subprocess.html 
+        (stdoutdata, stderrdata) = p.communicate(input=job_string + os.linesep)
+        job_id = stdoutdata.strip().split(" ")[-1]
 
-        inpipe.write(job_string + os.linesep)
-        inpipe.close()
+        #(outpipe, inpipe) = (p.stdin, p.stdout)
+        ##print(job_string)
+        #inpipe.write(job_string + os.linesep)
+        #inpipe.close()
         
-        job_id = outpipe.read().strip().split(" ")[-1]
-        outpipe.close()
+        #job_id = outpipe.read().strip().split(" ")[-1]
+        ##print('----job_id----')
+        #print(job_id)
+        ##print('---- end job_id ----')
+        #outpipe.close()
         
         return job_id

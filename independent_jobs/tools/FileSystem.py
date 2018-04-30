@@ -26,7 +26,8 @@ class FileSystem(object):
             folder = "." + os.sep
             fname = filename
         
-        pipeoutput = subprocess.Popen("ls " + folder, shell=True, stdout=subprocess.PIPE)
+        pipeoutput = subprocess.Popen("ls " + folder, shell=True, 
+                stdout=subprocess.PIPE, encoding='utf8')
         pipelines = pipeoutput.stdout.readlines()
         
         files = "".join(pipelines).split(os.linesep)
